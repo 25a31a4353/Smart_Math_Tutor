@@ -1,0 +1,78 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Function declarations from other modules
+void displayWelcome();
+void displayMenu();
+void displayReport(const string& name, int totalQ, int correct, int wrong, int level);
+void displayExit();
+
+int generateQuestionSet();
+
+void saveProgress(int score, int correctCount, int wrongCount, double accuracy);
+void loadProgress();
+
+// Global variables from question generator
+extern int correctCount;
+extern int wrongCount;
+extern int currentLevel;
+
+int main()
+{
+    int choice;
+    string playerName;
+
+    cout << "Enter Your Name: ";
+    getline(cin, playerName);
+
+    do
+    {
+        displayWelcome();
+        displayMenu();
+        cin >> choice;
+
+        switch (choice)
+        {
+            case 1:
+            {
+                // Start Quiz
+                int score = generateQuestionSet();
+
+                int totalQuestions = 5;
+                double accuracy = ((double)correctCount / totalQuestions) * 100.0;
+
+                // Save progress
+                saveProgress(score, correctCount, wrongCount, accuracy);
+
+                // Display final report
+                displayReport(playerName, totalQuestions, correctCount, wrongCount, currentLevel);
+
+                break;
+            }
+
+            case 2:
+            {
+                // View previous progress
+                loadProgress();
+                break;
+            }
+
+            case 3:
+            {
+                // Exit program
+                displayExit();
+                break;
+            }
+
+            default:
+            {
+                cout << "Invalid Choice! Please try again.\n";
+            }
+        }
+
+    } while (choice != 3);
+
+    return 0;
+}
