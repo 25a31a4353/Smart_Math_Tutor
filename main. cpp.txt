@@ -1,0 +1,71 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Include team modules
+#include "ui_display.h"
+#include "question_generator.cpp"
+#include "file_handler.cpp"
+
+int main()
+{
+    int choice;
+    string playerName;
+
+    cout << "Enter Your Name: ";
+    getline(cin, playerName);
+
+    do
+    {
+        displayWelcome();
+        displayMenu();
+        cin >> choice;
+
+        switch (choice)
+        {
+            case 1:
+            {
+                // Start Quiz
+                generateQuestionSet();
+
+                // Example values for report (can later integrate exact counts)
+                int totalQuestions = 5;
+                int correct = 4;
+                int wrong = 1;
+                int level = 1;
+
+                double accuracy = ((double)correct / totalQuestions) * 100;
+                int score = correct * 10;
+
+                saveProgress(score, correct, wrong, accuracy);
+
+                displayReport(playerName, totalQuestions, correct, wrong, level);
+
+                break;
+            }
+
+            case 2:
+            {
+                // View Previous Progress
+                loadProgress();
+                break;
+            }
+
+            case 3:
+            {
+                // Exit
+                displayExit();
+                break;
+            }
+
+            default:
+                cout << "Invalid Choice! Please try again.\n";
+        }
+
+        system("pause");
+
+    } while (choice != 3);
+
+    return 0;
+}
