@@ -1,0 +1,65 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+// Save Progress
+void saveProgress(int score, int correctCount, int wrongCount, double accuracy)
+{
+    ofstream file("progress.txt");
+
+    if (!file)
+    {
+        cout << "Error saving progress.\n";
+        return;
+    }
+
+    file << score << endl;
+    file << correctCount << endl;
+    file << wrongCount << endl;
+    file << accuracy << endl;
+
+    file.close();
+
+    cout << "Progress Saved Successfully.\n";
+}
+
+// Load Progress
+void loadProgress()
+{
+    ifstream file("progress.txt");
+
+    if (!file)
+    {
+        cout << "No saved progress found.\n";
+        return;
+    }
+
+    int score, correctCount, wrongCount;
+    double accuracy;
+
+    file >> score;
+    file >> correctCount;
+    file >> wrongCount;
+    file >> accuracy;
+
+    file.close();
+
+    cout << "\n===== PREVIOUS PROGRESS =====" << endl;
+    cout << "Score: " << score << endl;
+    cout << "Correct Answers: " << correctCount << endl;
+    cout << "Wrong Answers: " << wrongCount << endl;
+    cout << "Accuracy: " << accuracy << "%" << endl;
+}
+
+// Generate Performance Report
+void generateReport(int score)
+{
+    cout << "\n===== PERFORMANCE REPORT =====" << endl;
+
+    if (score >= 40)
+        cout << "Performance: Excellent" << endl;
+    else if (score >= 25)
+        cout << "Performance: Good" << endl;
+    else
+        cout << "Performance: Needs Improvement" << endl;
+}
